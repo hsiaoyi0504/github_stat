@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+from __future__ import print_function
 import json
 import urllib2
 import cookielib
@@ -39,22 +39,22 @@ def _read_git_log(repo_name):
     f = open(file, 'r')
     for line in f:
         line = line.strip()
-	if "===" in line:
-	    num = line.split(" ")[1]
-	    if num != "0":
-                for i in [str(cc), str(fc), str(ic), str(dc)]:
-                    result.append(i)
-		cc, fc, ic, dc = (0, 0, 0, 0)
-	else:
-            l = line.split(",")
-	    cc += 1
-	    for e in l:
-                if "changed" in e:
-	            fc += int(e.split(" ")[0])
-		elif "insertion" in e:
-		    ic += int(e.split("insertion")[0])
-		elif "deletion" in e:
-		    dc += int(e.split("deletion")[0])
+    if "===" in line:
+        num = line.split(" ")[1]
+        if num != "0":
+            for i in [str(cc), str(fc), str(ic), str(dc)]:
+                result.append(i)
+        cc, fc, ic, dc = (0, 0, 0, 0)
+    else:
+        l = line.split(",")
+        cc += 1
+        for e in l:
+            if "changed" in e:
+                fc += int(e.split(" ")[0])
+            elif "insertion" in e:
+                ic += int(e.split("insertion")[0])
+            elif "deletion" in e:
+                dc += int(e.split("deletion")[0])
     f.close()
 
     return result
@@ -90,4 +90,4 @@ for r in t_result:
     output_file.write(','.join(r) + '\n')
 output_file.close()
 
-print 'Report generated'
+print('Report generated')
